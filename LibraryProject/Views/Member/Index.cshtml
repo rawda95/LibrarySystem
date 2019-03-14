@@ -1,0 +1,342 @@
+﻿
+@using LibraryProject.Models;
+@using LibraryProject.Identity;
+@using Microsoft.AspNet.Identity;
+@{
+    /**/
+
+    /**/
+
+    bool canBorrow = false;
+    string cssClass = "btn btn-info my-1";
+    string disabled = " disabled";
+    string readClass = cssClass;
+    string BorrowClass = cssClass;
+
+
+    ApplicationDbContext db = new ApplicationDbContext();
+    string userId = User.Identity.GetUserId().ToString();
+    var member = db.Members.SingleOrDefault(a => a.MemeberId == userId);
+    canBorrow = db.Members.SingleOrDefault(m => m.MemeberId == userId).CanBorrow;
+    // flagId = db.Users.SingleOrDefault(x => x.Id == userId).FlagId;
+
+
+
+}
+@{
+    ViewBag.Title = "Index";
+}
+@model LibraryProject.Controllers.CategoryBook
+<h2>Index</h2>
+<section>
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="left-sidebar">
+                    <h2>Filter</h2>
+                    <!--accordion-->
+                    <div id="accordion">
+                        <div class="card">
+                            <div class="card-header bg-light" id="headingOne">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" data-toggle="collapse" data-target="#Authors" aria-expanded="true" aria-controls="Authors">
+                                        Authors
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="Authors" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                <div class="card-body">
+                                    <ul>
+                                        @foreach (var author in Model.authors)
+                                        {
+                                            <li>
+                                                @Html.ActionLink(author.name, "index", new { author_id = author.id })
+                                            </li>
+                                        }
+                                        <li>
+                                            @Html.ActionLink("all", "index")
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="headingTwo">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#category" aria-expanded="false" aria-controls="category">
+                                        category
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="category" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                <div class="card-body">
+                                    <ul>
+                                        @foreach (var category in Model.categories)
+                                        {
+                                            <li>
+                                                @Html.ActionLink(category.name, "index", new { category_id = category.id })
+                                            </li>
+                                        }
+                                        <li>
+                                            @Html.ActionLink("all", "index")
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="headingThree">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#Publishers" aria-expanded="false" aria-controls="Publishers">
+                                        Publishers
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="Publishers" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                                <div class="card-body">
+                                    <ul>
+                                        @foreach (var publisher in Model.publishers)
+                                        {
+                                            <li>
+                                                @Html.ActionLink(publisher.name, "index", new { author_id = publisher.id })
+                                            </li>
+                                        }
+                                        <li>
+                                            @Html.ActionLink("all", "index")
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="headingFour">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#Year" aria-expanded="false" aria-controls="Publishers">
+                                        Year
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="Year" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                                <div class="card-body">
+                                    <ul>
+                                        @foreach (var publisher in Model.publishers)
+                                        {
+                                            <li>
+                                                @Html.ActionLink(publisher.name, "index", new { author_id = publisher.id })
+                                            </li>
+                                        }
+                                        <li>
+                                            @Html.ActionLink("all", "index")
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="headingFour">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#availability" aria-expanded="false" aria-controls="Publishers">
+                                        availability
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="availability" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                                <div class="card-body">
+                                    <ul>
+                                        <li>
+                                            @Html.ActionLink("Aviable", "index", new { availability = true })
+                                        </li>
+                                        <li>
+                                            @Html.ActionLink(" not Aviable", "index", new { availability = false })
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--accordion-->
+                </div>
+            </div>
+            <div class="col-sm-9 padding-right">
+                <div class="features_items">
+                    <!--features_items-->
+                    <h2 class="title text-center">Books</h2>
+                    <!--search-->
+                    <div>
+                        @using (Ajax.BeginForm("Index", "member", new AjaxOptions
+                        {
+                            UpdateTargetId = "searchedTable",
+                            InsertionMode = InsertionMode.Replace,
+                            HttpMethod = "Post"
+
+                        }))
+
+                        {
+                            <div class="form-inline mb-2">
+                                @Html.TextBox("txtSearch", null, new { @class = "form-control mr-2", id = "txtSearch" })
+                                <input type="submit" class="btn btn-default" value="Search" />
+                            </div>
+                        }
+                    </div><!--search-->
+                </div>
+                <div class="row">
+                    @foreach (var book in Model.Books)
+                    {
+                        //  ViewBag.book_name = book.name;
+                        //ViewBag.book_id = book.id;
+
+                        //   var a = new book();
+
+                        var bookRead = member.ReadBooks.Where(rb => rb.BookId == book.id).Select(b => b).ToList();
+                        var bookborrow = member.BorrowBooks.Where(rb => rb.BookId == book.id).Select(b => b).ToList();
+                        bool bookAvalibe = book.Aviable;
+                        int numOfAvalibelBook = book.Copies - (book.NumOfbrrow + book.NumOfread);
+
+
+
+                        bool inRead = false, inBorrow = false;
+                        if (bookRead.Count > 0)
+                        {
+                            inRead = true;
+                        }
+                        if (bookborrow.Count > 0)
+                        {
+                            inBorrow = true;
+                        }
+
+
+                        <div class="col-12 col-md-3">
+                            <div class="product-image-wrapper text-center rounded shadow p-4 bg-light my-2">
+                                <div class="single-products">
+                                    <div class="productinfo text-center">
+                                        @if (book.dateArived.Month == DateTime.Now.Month && book.dateArived.Year == DateTime.Now.Year)
+                                        {
+                                            <div class="text-left">
+                                                <span class="badge badge-danger">
+                                                    new
+                                                </span>
+                                            </div>
+                                        }
+                                        @if (!bookAvalibe)
+                                        {
+                                            <div class="btn btn-danger">
+                                                not Avalibe
+                                            </div>
+
+                                        }
+                                        <p class="lead">@book.name</p>
+                                        <P>@book.Author.name</P>
+                                        <p>@book.dateArived</p>
+                                    </div>
+                                </div>
+                                <div class="choose">
+                                    <ul class="nav nav-pills nav-justified  text-center">
+                                        @if (inRead || !bookAvalibe)
+                                        {
+                                            readClass += disabled;
+                                        }
+                                        else
+                                        {
+                                            readClass = cssClass;
+                                        }
+                                        @Html.ActionLink("Read", "AddRead", new { book_id = book.id }, new { @class = @readClass })
+                                        @if (!canBorrow || inBorrow || numOfAvalibelBook <= 1 || !bookAvalibe)
+                                        {
+                                            BorrowClass += disabled;
+                                        }
+                                        else
+                                        {
+                                            BorrowClass = cssClass;
+                                        }
+                                        @{String bookModeId = book.name + "" + book.id.ToString();
+                                            string bookModelwithHash = "#" + bookModeId;
+                                        }
+                                        <li>
+                                            <button type="button" class=@BorrowClass data-toggle="modal" data-target=@bookModelwithHash>
+                                                Borrow
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Modal -->
+
+                        <div class="modal fade" id=@bookModeId tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        @{
+                                            // ViewBag.book_name = book.name;
+                                            //ViewBag.book_id = book.id;
+                                            var temp = new { book_id = book.id, book_name = book.name };
+
+                                            Html.RenderPartial("addborrow", temp);
+
+                                            <p>@book.name</p>
+
+                                            <p>@book.id</p>
+
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        //                        bookRead = null;
+                    }
+                </div>
+            </div><!--features_items-->
+        </div>
+    </div>
+    </div>
+</section>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#txtSearch").autocomplete = "on";
+
+            $("#txtSearch").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/books/NameString",
+                        type: "POST",
+                        dataType: "json",
+                        data: { name: request.term },
+                        success: function (data) {
+                            response(data);
+
+                        }
+
+
+                    })
+                },
+
+            });
+        })
+    </script>
+}

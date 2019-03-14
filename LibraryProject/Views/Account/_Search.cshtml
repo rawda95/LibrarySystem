@@ -1,0 +1,44 @@
+﻿@model IEnumerable<LibraryProject.Models.ApplicationUser>
+<table class="text-center table-bordered table table-responsive">
+    <thead>
+        <tr class="text-center">
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>User Name</th>
+            <th>Email</th>
+            <th>Image</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @if (Model == null)
+        {
+        <tr colspan="5">
+            There is NO Data
+        </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                //Convert byte arry to base64string
+                string imgBase64Data = Convert.ToBase64String(item.Photo);
+                string imgDataURL = string.Format("data:{1};base64,{0}", imgBase64Data, MimeMapping.GetMimeMapping(imgBase64Data));
+        <tr>
+            <td>@item.FirstName</td>
+            <td>@item.LastName</td>
+            <td>@item.UserName</td>
+            <td>@item.Email</td>
+            <td><img src="@imgDataURL" width="100" height="100"> </td>
+            <td>@Html.ActionLink("Delete", "Delete", "Account", new { id = item.Id, delete = Request.QueryString["view"] }, null)</td>
+            @if (!User.IsInRole("Employee"))
+                    {
+            <td>@Html.ActionLink("Edit", "Edit", "Account", new { id = item.Id, edit = Request.QueryString["view"] }, null)</td>
+
+                    }
+            <td>@Html.ActionLink("Details", "Details", "Account", new { id = item.Id }, null)</td>
+        </tr>
+            }
+        }
+    </tbody>
+</table>

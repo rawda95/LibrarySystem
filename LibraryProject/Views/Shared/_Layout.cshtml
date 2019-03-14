@@ -1,0 +1,161 @@
+﻿@using LibraryProject.Models;
+@using LibraryProject.Identity;
+@using Microsoft.AspNet.Identity;
+@{
+    int flagId = 0;
+    string error = "hhhhh";
+    if (User.Identity.IsAuthenticated)
+    {
+        ApplicationDbContext db = new ApplicationDbContext();
+        string userId = User.Identity.GetUserId().ToString();
+        flagId = db.Users.SingleOrDefault(x => x.Id == userId).FlagId;
+
+        error = ViewBag.ModelValid;
+        if (error == null) { error = "ffffff"; }
+    }
+
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">*@
+    <link href="~/Content/bootstrap-datepicker.min.css" rel="stylesheet" />
+    @*<link href="~/Content/Site.css" rel="stylesheet" />*@
+    @*<link href="~/Content/bootstrap-datepicker.min.css" rel="stylesheet" />*@
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    @* Start Basic Admin *@
+                    @if (User.IsInRole("BasicAdmin"))
+                    {
+
+                        <li>@Html.ActionLink("Add Admin", "Register", "Account", new { add = "Admin" }, null)</li>
+
+
+
+                        <li>@Html.ActionLink("View Employee", "ViewUser", "Account", new { view = "Employee" }, null)</li>
+
+
+
+                        <li>@Html.ActionLink("View Member", "ViewUser", "Account", new { view = "Member" }, null)</li>
+
+
+
+                    }
+
+                    @* End Basic Admin *@
+
+                    @* Admin *@
+                    @if (User.IsInRole("Admin") && flagId == 1)
+                    {
+                        <li>@Html.ActionLink("Add Employee", "Register", "Account", new { add = "Employee" }, null)</li>
+
+
+
+
+                        <li>@Html.ActionLink("Add Book", "Create", "books")</li>
+                        <li>@Html.ActionLink("View Book", "Index", "books")</li>
+
+                        @*<li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Book
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" id="book" role="menu"></ul>
+                            </li>*@
+
+
+                        <li>@Html.ActionLink("Add Author", "Create", "Authors")</li>
+                        <li>
+                            @Html.ActionLink("View Author", "Index", "Authors")
+                        </li>
+                        <li>@Html.ActionLink("Add Publisher", "Create", "Publishers")</li>
+                        <li>@Html.ActionLink("View Publisher", "Index", "Publishers")</li>
+
+
+
+                        <li>@Html.ActionLink("Add Cat", "Create", "category", null)</li>
+                        <li>@Html.ActionLink("View Cat", "Index", "category", null)</li>
+
+
+                    }
+                    @* End Admin *@
+
+
+
+                    @* Start Employee *@
+                    @if (User.IsInRole("Employee") && flagId == 1)
+                    {
+                        <li>@Html.ActionLink("Add Member", "Register", "Account", new { add = "Member" }, null)</li>
+                        <li>@Html.ActionLink("Add Borrow Book", "addBorrowBook", "Employee", new { add = "Member" }, null)</li>
+                        <li>@Html.ActionLink("Borrow Books", "borrowdbooks", "Employee", new { add = "Member" }, null)</li>
+
+                        <li>@Html.ActionLink("Reads Books", "readbooks", "Employee", new { add = "Member" }, null)</li>
+                        <li>@Html.ActionLink("Add Read Book", "addreadBook", "Employee", new { add = "Member" }, null)</li>
+
+                        <li>@Html.ActionLink("Book Late", "MemberBorrowLate", "Employee", new { add = "Member" }, null)</li>
+
+
+
+
+
+                    }
+                    @* End Employee *@
+
+
+                    @* Start member *@
+                    @if (User.IsInRole("Member") && flagId == 1)
+                    {
+                        <li>@Html.ActionLink("read books", "readbooks", "member", null, null)</li>
+                        <li>@Html.ActionLink("borrow books ", "borrowdBooks", "member", null, null)</li>
+
+                    }
+                    @* End member *@
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    @Scripts.Render("~/Scripts/select2.js")
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    @RenderSection("scripts", required: false)
+    <script>
+        function handleSucess() {
+            consol.log("sssssssssssss")
+        }
+    </script>
+</body>
+</html>

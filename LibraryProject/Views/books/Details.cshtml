@@ -1,0 +1,106 @@
+﻿@model LibraryProject.Models.book
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>book</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Author.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Author.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Category.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Category.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Publisher.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Publisher.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PublisherDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PublisherDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Edition)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Edition)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Pages)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Pages)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Copies)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Copies)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Aviable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Aviable)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShielfNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShielfNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dateArived)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateArived)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

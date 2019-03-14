@@ -1,0 +1,118 @@
+﻿@using System.Globalization;
+@model IEnumerable<LibraryProject.Models.BorrowMember>
+@{
+    ViewBag.Title = "books";
+}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="left-sidebar">
+                    <h2>Filter</h2>
+                    <div id="accordion">
+                        <div class="card">
+                            <div class="card-header" id="headingFour">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#Year" aria-expanded="false" aria-controls="Publishers">
+                                        Year
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="Year" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                                <div class="card-body">
+                                    <ul>
+                                        @for (int i = DateTime.Now.Year; i >= DateTime.Now.Year - 10; i--)
+
+                                        {
+
+                                            <li>@Html.ActionLink(i.ToString(), "borrowdBooks", "member", new { year = i }, null)</li>
+
+
+                                        }
+                                        <li>
+                                            @Html.ActionLink("all", "borrowdBooks", "member", null, null)
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="headingFour">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#Month" aria-expanded="false" aria-controls="Publishers">
+                                        Month
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="Month" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                                <div class="card-body">
+                                    <ul>
+                                        @for (int i = 1; i <= 12; i++)
+
+                                        {
+                                            string monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(i);
+
+
+                                            <li>@Html.ActionLink(monthName, "borrowdBooks", "member", new { month = i }, null)</li>
+
+                                        }
+                                        <li>
+                                            @Html.ActionLink("all", "borrowdBooks", "member", null, null)
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="headingFour">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#borrowd" aria-expanded="false" aria-controls="Publishers">
+                                        borrowd
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="borrowd" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                                <div class="card-body">
+                                    <ul>
+                                        <li>@Html.ActionLink("Current", "borrowdBooks", "member", new { borrowed = false }, null)</li>
+                                        <li>
+                                            @Html.ActionLink("all", "borrowdBooks", "member", null, null)
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-9 padding-right">
+                <!--features_items-->
+                <h2 class="title text-center">@ViewBag.type Books</h2>
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+
+                        <div class="col-md-3 col-12">
+                            <div class="product-image-wrapper text-center rounded shadow p-4 bg-light my-2">
+                                <div class="single-products">
+                                    <div class="productinfo text-center">
+                                        <p>@item.book.name</p>
+                                        <p>@item.book.Author.name </p>
+                                        <P>@item.Duration</P>
+                                        <p>@item.DateBorrow</p>
+                                        @if (!item.ReturnBook)
+                                        {
+                                            <h4><span class="badge badge-danger">not returend</span></h4>
+
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </div><!--features_items-->
+        </div>
+    </div>
+</section>

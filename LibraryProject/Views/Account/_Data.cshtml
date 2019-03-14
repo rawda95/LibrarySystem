@@ -1,0 +1,125 @@
+﻿@model IEnumerable<LibraryProject.Models.ApplicationUser>
+@using LibraryProject.Identity;
+@{
+    ViewBag.Title = "Index";
+    var x = Request.QueryString["view"];
+    ApplicationDbContext db = new ApplicationDbContext();
+    int flagId = 0;
+    string error = ViewBag.ModelValid;
+    if (error == null) { error = "ffffff"; }
+}
+<div>
+    @if (error == null || error == "")
+    {
+        @Html.Label("", new { id = "error", @class = "text-danger" })
+
+    }
+    else
+    {
+        @Html.Label(error, new { id = "error", @class = "text-danger" })
+
+    }
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">User NAme</th>
+                <th scope="col">Email</th>
+                <th scope="col">Photo</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                //Convert byte arry to base64string
+                string imgBase64Data = Convert.ToBase64String(item.Photo);
+                string imgDataURL = string.Format("data:{1};base64,{0}", imgBase64Data, MimeMapping.GetMimeMapping(imgBase64Data));
+
+
+
+                flagId = db.Users.SingleOrDefault(user => user.Id == item.Id).FlagId;
+
+                <tr>
+                    <td>@item.FirstName</td>
+                    <td>@item.LastName</td>
+                    <td>@item.UserName</td>
+                    <td>@item.Email</td>
+                    <td><img src="@imgDataURL" width="100" height="100"> </td>
+                    @* <td>@Html.ActionLink("Delete", "Delete", "Account", new { id = item.Id, delete = Request.QueryString["view"] }, null)</td>*@
+                    @*<td>@Html.ActionLink("Details", "Details", "Account", new { id = item.Id, details = Request.QueryString["view"] }, null)</td>*@
+                    <td>
+                        @Ajax.ActionLink("Delete", "Delete", "Account", new { id = item.Id, delete = Request.QueryString["view"], edit = Request.QueryString["view"] },
+                                   new AjaxOptions
+                                   {
+
+                                       UpdateTargetId = "serchedTable",
+                                       InsertionMode = InsertionMode.Replace,
+
+                                   }, new { @class = "btn btn-info" })
+                    </td>
+                    @*<td>
+                            @Ajax.ActionLink("Details", "Details", "Account", new { id = item.Id, details = Request.QueryString["view"] },
+                                       new AjaxOptions
+                                       {
+
+                                           UpdateTargetId = "Modell",
+                                           InsertionMode = InsertionMode.Replace,
+                                           OnComplete = "modalData()"
+
+                                       }, new { @class = "btn btn-info" })
+                        </td>*@
+                    @if (!User.IsInRole("Employee"))
+                    {
+
+                        @*<td>@Html.ActionLink("Edit", "Edit", "Account", new { id = item.Id, edit = Request.QueryString["view"] }, null)</td>*@
+                        <td>
+                            @*Request.RequestContext.RouteData.Values["abc"]*@
+                            @Ajax.ActionLink("Edit", "Edit", "Account", new { id = item.Id, data = Request.QueryString["view"], edit = Request.QueryString["view"] },
+                               new AjaxOptions
+                               {
+
+                                   UpdateTargetId = "form",
+                                   InsertionMode = InsertionMode.Replace,
+
+                               }, new { @class = "btn btn-info" })
+                        </td>
+                    }
+                    else
+                    {
+                        if (flagId == 0)
+                        {
+                            <td>
+                                @* @Html.ActionLink("Accept", "AcceptMember", "Account", new { id = item.Id, accept = Request.QueryString["view"] }, null)*@
+                                @Ajax.ActionLink("Accept", "AcceptMember", "Account", new { id = item.Id, accept = Request.QueryString["view"], edit = Request.QueryString["view"] },
+                                                   new AjaxOptions
+                                                   {
+
+                                                       UpdateTargetId = "serchedTable",
+                                                       InsertionMode = InsertionMode.Replace,
+
+                                                   }, new { @class = "btn btn-info" })
+                            </td>
+
+                        }
+
+                    }
+                </tr>
+            }
+            }
+        </tbody>
+    </table>
+</div>
+@section scripts{
+    <script>
+    //var btnRegister = document.getElementById("register")
+        console.log('@ViewBag.ModelValid')
+        console.log('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
+        var lblErrorValid = document.getElementById("error")
+        console.log("error ",'@ViewBag.ModelValid')
+        lblErrorValid.innerText = '@ViewBag.ModelValid'
+
+
+    </script>
+}

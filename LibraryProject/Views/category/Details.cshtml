@@ -1,0 +1,35 @@
+﻿
+@using LibraryProject.Models;
+@model LibraryProject.Models.Category
+
+@*<div>*@
+<h5>Category Details</h5>
+<table class="table">
+    <tr>
+        <td>
+            @Html.DisplayNameFor(model => model.name) :
+            @Html.DisplayFor(model => model.name)
+        </td>
+        <td class="text-right">
+            @Html.ActionLink("Edit", "Edit", new { id = Model.id }, new { @class = "btn btn-warning" })
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
+        </td>
+    </tr>
+</table>
+@*<dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.name)
+            </dd>
+
+        </dl>
+
+    </div>
+    <th/>
+    <p class="text-right">
+            @Html.ActionLink("Edit", "Edit", new { id = Model.id }, new { @class = "btn btn-warning" })
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
+    </p>*@

@@ -1,0 +1,14 @@
+﻿@model LibraryProject.Models.Author
+<h5>Author Details</h5>
+<table class="table">
+    <tr>
+        <td>
+            @Html.DisplayNameFor(model => model.name) :
+            @Html.DisplayFor(model => model.name)
+        </td>
+        <td class="text-right">
+            @Html.ActionLink("Edit", "Edit", new { id = Model.id }, new { @class = "btn btn-warning" })
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
+        </td>
+    </tr>
+</table>

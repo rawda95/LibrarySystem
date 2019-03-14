@@ -1,0 +1,100 @@
+﻿@model LibraryProject.Models.UpdateViewModel
+
+@{
+    ViewBag.Title = "Edit";
+    string error = ViewBag.ModelValid;
+    if (error == null) { error = "ffffff"; }
+}
+<h2>@ViewBag.Title.</h2>
+@using (Html.BeginForm("Update", "Account", new { edit = Request.QueryString["edit"] }, FormMethod.Post, new { @class = "form-horizontal", role = "form" , enctype = "multipart/form-data" }))
+{
+
+<h4>Update Your Information.</h4>
+<hr />
+
+@Html.HiddenFor(m=>m.Id)
+@Html.AntiForgeryToken()
+@Html.ValidationSummary("", new { @class = "text-danger" })
+    @Html.Label(error, new { id = "error", @class = "text-danger" })
+
+
+<div>
+    <img src="@ViewBag.imgSrc" width="200" height="200" />
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+    @Html.TextBoxFor(m => m.FirstName, new { @class = "col-md-10 form-control" })
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+    @Html.TextBoxFor(m => m.LastName, new { @class = "col-md-2 form-control" })
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+    @Html.TextBoxFor(m => m.UserName, new { @class = "col-md-2 form-control" })
+</div>
+
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+    @Html.TextBoxFor(m => m.Email, new { @class = " col-md-10 form-control" })
+</div>
+
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Address, new { @class = "col-md-2 control-label" })
+    @Html.TextBoxFor(m => m.Address, new { @class = "col-md-10 form-control" })
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.Phone, new { @class = "col-md-2 control-label" })
+    @Html.TextBoxFor(m => m.Phone, new { @class = "col-md-10 form-control" })
+</div>
+    //Manage When Salary Can be edit
+    if (User.IsInRole("Admin") || User.IsInRole("BasicAdmin") || (User.IsInRole("Employee") && Request.QueryString["edit"] == null) )
+    {
+<div class="form-group">
+    @Html.LabelFor(m => m.Salary, new { @class = "col-md-2 control-label" })
+    @if (Request.QueryString["edit"] != null)
+            {
+    @Html.EditorFor(m => m.Salary, new { @class = "col-md-10 form-control" })
+
+            }
+            else
+            {
+    @Html.DisplayFor(m => m.Salary, new { @class = "col-md-10 form-control" })
+            }
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.HireDate, new { @class = "col-md-2 control-label" })
+    @*@Html.EditorFor(m => m.HireDate, new { @class = "col-md-10 form-control" })*@
+    @if (Request.QueryString["edit"] != null)
+            {
+    @Html.TextBoxFor(m => m.HireDate, new { @class = "col-md-10 form-control", data_provide = "datepicker", data_date_format = "yyyy-mm-dd", data_date_autoclose = "true" })
+            }
+            else
+            {
+    @Html.DisplayFor(m => m.HireDate, new { @class = "col-md-10 form-control"})
+
+            }
+</div>
+    }
+<div class="form-group">
+    @Html.LabelFor(m => m.Photo, new { @class = "col-md-2 control-label" })
+    @Html.TextBoxFor(m => m.Photo, new { type = "file" })
+</div>
+<div>
+    @Html.ActionLink("Change Password", "ChangePassword", "Manage")
+</div>
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" class="btn btn-default" value="Update" />
+    </div>
+    <div class="col-md-offset-2 col-md-10">
+        @Html.ActionLink("Cancel","Index", "Manage",null,new { @class="btn btn-primary"} )
+    </div>
+</div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

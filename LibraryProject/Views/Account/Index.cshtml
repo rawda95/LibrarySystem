@@ -1,0 +1,122 @@
+﻿@model IEnumerable<LibraryProject.Models.ApplicationUser>
+@using LibraryProject.Models;
+@using LibraryProject.Identity;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var  x = Request.QueryString["view"];
+    ApplicationDbContext db = new ApplicationDbContext();
+    int flagId = 0;
+
+}
+
+<h2>Index</h2>
+@using (Ajax.BeginForm("Index", "Account", new { view = ViewBag.roleName }, new AjaxOptions
+{
+    UpdateTargetId = "searchedTable",
+    InsertionMode = InsertionMode.Replace,
+    HttpMethod = "Post"
+
+}))
+
+{
+<div>
+    @Html.TextBox("txtSearch", null, new { id = "txtSearch" })
+    <input type="submit" value="Search" />
+</div>
+
+<div id="searchedTable">
+    @if (Model.Count() == 0)
+{
+    <b> Ther IS NO Data To DISPLAY</b>
+}
+else
+{
+    <table class="text-center table-bordered table table-responsive">
+        <thead>
+            <tr class="text-center">
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>User Name</th>
+                <th>Email</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (var item in Model)
+                {
+                    //Convert byte arry to base64string
+                    string imgBase64Data = Convert.ToBase64String(item.Photo);
+                    string imgDataURL = string.Format("data:{1};base64,{0}", imgBase64Data, MimeMapping.GetMimeMapping(imgBase64Data));
+
+
+
+                    flagId = db.Users.SingleOrDefault(user => user.Id == item.Id).FlagId;
+
+            <tr>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>@item.UserName</td>
+                <td>@item.Email</td>
+                <td><img src="@imgDataURL" width="100" height="100"> </td>
+                <td>@Html.ActionLink("Delete", "Delete", "Account", new { id = item.Id, delete = Request.QueryString["view"] }, null)</td>
+                <td>@Html.ActionLink("Details", "Details", "Account", new { id = item.Id, details = Request.QueryString["view"] }, null)</td>
+                @if (!User.IsInRole("Employee"))
+                        {
+                <td>@Html.ActionLink("Edit", "Edit", "Account", new { id = item.Id, edit = Request.QueryString["view"] }, null)</td>
+
+                        }
+                        else
+                        {
+                            if (flagId == 0)
+                            {
+                <td>@Html.ActionLink("Accept", "AcceptMember", "Account", new { id = item.Id, accept = Request.QueryString["view"] }, null)</td>
+
+                            }
+
+                        }
+            </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+</div>
+
+}
+@section Scripts{
+    <script>$(document).ready(function () {
+            $("#txtSearch").autocomplete({
+
+                source: function (request, response) {
+                    $.ajax({
+                        url: `/Account/GetUsers`,
+                        type: "POST",
+                        dataType: "json",
+                        data: { pattern: request.term },
+                        success: function (data) {
+                            Console.log(data)
+                            response($.map(data, function (item) {
+                                return { label: item.UserName, value: item.UserName };
+                            }))
+
+                        }
+                    })
+                },
+                messages: {
+                    noResults: "", results: ""
+                }
+            });
+        })
+    </script>
+    @*<script type="text/javascript">
+
+            $(document).ready(function () {
+                $("#txtSearch").autocomplete({
+                    source: '@Url.Action("GetUsers")',
+                    minLength: 1
+            })
+        </script>*@
+}

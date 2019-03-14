@@ -1,0 +1,86 @@
+﻿@model LibraryProject.Models.RegisterViewModel
+@{
+    string error = ViewBag.ModelValid;
+    if (error == null) { error = "ffffff"; }
+}
+<div class="mx-auto bg-light rounded p-2 shadow">
+    @using (Ajax.BeginForm("Register", "Account",
+                new { add = Request.QueryString["add"] },
+                 new AjaxOptions
+                 {
+                     HttpMethod = "POST",
+                     InsertionMode = InsertionMode.Replace,
+                     UpdateTargetId = "serchedTable",
+                     OnSuccess = "handleSucess()"
+                 }
+                , new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+    {
+
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        @Html.Label(error, new { id = "error", @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.FirstName, new { @class = "" })
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.LastName, new { @class = "" })
+            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserName, new { @class = "" })
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "" })
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, new { @class = "" })
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "" })
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Address, new { @class = "" })
+            @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Phone, new { @class = "" })
+            @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            .
+        </div>
+
+        if (User.IsInRole("Admin") || User.IsInRole("BasicAdmin"))
+        {
+            <div class="form-group">
+                @Html.LabelFor(m => m.Salary, new { @class = "col-md-2 control-label" })
+                @Html.EditorFor(m => m.Salary, new { @class = "col-md-10 form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.HireDate, new { @class = "col-md-2 control-label" })
+                @Html.TextBoxFor(m => m.HireDate, new { @Value = DateTime.Now, @class = "col-md-10 form-control", data_provide = "datepicker", data_date_format = "yyyy-mm-dd", data_date_autoclose = "true" })
+            </div>
+        }
+        <div class="form-group">
+            @Html.LabelFor(m => m.Photo, new { @class = "col-md-2 control-label" })
+            @Html.TextBoxFor(m => m.Photo, new { type = "file" })
+            @*<input id="Photo" name="Photo" type="file" />*@
+        </div>
+        <div class="form-group">
+            <div class="text-center">
+                <input id="register" type="submit" class="btn btn-success mt-2" value="Register" />
+            </div>
+        </div>
+    }
+</div>

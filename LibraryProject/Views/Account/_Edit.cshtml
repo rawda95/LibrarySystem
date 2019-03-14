@@ -1,0 +1,113 @@
+﻿
+@model LibraryProject.Models.UpdateViewModel
+@{
+    string error = ViewBag.ModelValid;
+    if (error == null) { error = "ffffff"; }
+}
+@using (Ajax.BeginForm("Update", "Account",
+    new { edit = Request.QueryString["edit"] },
+     new AjaxOptions
+     {
+         HttpMethod = "POST",
+         InsertionMode = InsertionMode.Replace,
+         UpdateTargetId = "serchedTable",
+         OnSuccess = "handleSucess()"
+// OnComplete = "your_js_function();"
+},
+    new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+{
+
+
+
+    @Html.HiddenFor(m => m.Id)
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    @Html.Label(error, new { id = "error", @class = "text-danger" })
+
+
+    <div>
+        <img src="@ViewBag.imgSrc" width="200" height="200" />
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+        @Html.TextBoxFor(m => m.FirstName, new { @class = "col-md-10 form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+        @Html.TextBoxFor(m => m.LastName, new { @class = "col-md-2 form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+        @Html.TextBoxFor(m => m.UserName, new { @class = "col-md-2 form-control" })
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        @Html.TextBoxFor(m => m.Email, new { @class = " col-md-10 form-control" })
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Address, new { @class = "col-md-2 control-label" })
+        @Html.TextBoxFor(m => m.Address, new { @class = "col-md-10 form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Phone, new { @class = "col-md-2 control-label" })
+        @Html.TextBoxFor(m => m.Phone, new { @class = "col-md-10 form-control" })
+    </div>
+    //Manage When Salary Can be edit
+    if (User.IsInRole("Admin") || User.IsInRole("BasicAdmin") || (User.IsInRole("Employee") && Request.QueryString["view"] == null))
+    {
+        if (Request.QueryString["view"] != "Member" && Request.QueryString["edit"] != "Member")
+        {
+            <div class="form-group">
+                @Html.LabelFor(m => m.Salary, new { @class = "col-md-2 control-label" })
+                @if (Session["roleName"].ToString() != null)
+                {
+                    @Html.EditorFor(m => m.Salary, new { @class = "col-md-10 form-control" })
+
+                }
+                else
+                {
+                    @Html.DisplayFor(m => m.Salary, new { @class = "col-md-10 form-control" })
+                }
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.HireDate, new { @class = "col-md-2 control-label" })
+                @*@Html.EditorFor(m => m.HireDate, new { @class = "col-md-10 form-control" })*@
+                @if (Session["roleName"].ToString() != null)
+                {
+                    @Html.TextBoxFor(m => m.HireDate, new { @Value = DateTime.Now, @class = "col-md-10 form-control", data_provide = "datepicker", data_date_format = "yyyy-mm-dd", data_date_autoclose = "true" })
+                }
+                else
+                {
+                    @Html.DisplayFor(m => m.HireDate, new { @class = "col-md-10 form-control" })
+
+                }
+            </div>
+        }
+    }
+    <div class="form-group">
+        @Html.LabelFor(m => m.Photo, new { @class = "col-md-2 control-label" })
+        @Html.TextBoxFor(m => m.Photo, new { type = "file" })
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Update" />
+        </div>
+        <div class="col-md-offset-2 col-md-10">
+            @*@Html.ActionLink("Cancel", "Index", "Manage", null, new { @class = "btn btn-primary" })*@
+            @Ajax.ActionLink("Cancel", "CancelEdit", "Account", null ,
+                                               new AjaxOptions
+                                               {
+
+                                                   UpdateTargetId = "form",
+                                                   InsertionMode = InsertionMode.Replace,
+
+                                               }, new { @class = "btn btn-info" })
+        </div>
+    </div>
+}

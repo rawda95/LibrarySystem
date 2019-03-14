@@ -1,0 +1,83 @@
+﻿@model LibraryProject.Models.MemberRead
+@{
+    ViewBag.Title = "addreadBook";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="w-75 mx-auto shadow p-3 bg-light">
+       
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @if (ViewBag.error != null)
+        {
+            <p class="text-danger">@ViewBag.error</p>
+        }
+        <div class="form-group">
+            @Html.LabelFor(model => model.book.name, "book Name", htmlAttributes: new { @class = "", })
+                @Html.DropDownList("BookId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.BookId, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Member.User.UserName, "memeber Name", htmlAttributes: new { @class = "" })
+                @Html.DropDownList("MemberId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.MemberId, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group text-center">
+           
+                <input type="submit" value="Create" class="btn btn-success btn-lg" />
+            
+        </div>
+    </div>
+}
+@section Scripts{
+    <script>
+        $(function () {
+            $("#select2-BookId-container").hide();
+            $("#select2-MemberId-container").hide();
+
+
+        })
+
+        function matchStart(params, data) {
+
+            // If there are no search terms, return all of the data
+            if ($.trim(params.term) === '') {
+                return data;
+            }
+
+            // Skip if there is no 'children' property
+            if (typeof data.children === 'undefined') {
+                return null;
+            }
+
+            // `data.children` contains the actual options that we are matching against
+            var filteredChildren = [];
+            $.each(data.children, function (idx, child) {
+                if (child.text.toUpperCase().indexOf(params.term.toUpperCase()) == 0) {
+                    filteredChildren.push(child);
+                }
+            });
+
+            // If we matched any of the timezone group's children, then set the matched children on the group
+            // and return the group object
+            if (filteredChildren.length) {
+                var modifiedData = $.extend({}, data, true);
+                modifiedData.children = filteredChildren;
+
+                // You can return modified objects from here
+                // This includes matching the `children` how you want in nested data sets
+                return modifiedData;
+            }
+
+            // Return `null` if the term should not be displayed
+            return null;
+        }
+
+        $("#BookId").select2({
+            matcher: matchStart
+        });
+        $("#MemberId").select2({
+            matcher: matchStart
+        });</script>
+}

@@ -1,0 +1,97 @@
+﻿@*@model IEnumerable< LibraryProject.Models.RegisterViewModel>*@
+@using LibraryProject.Models
+@model UserAddTableModel
+@using LibraryProject.Identity;
+@{
+    ViewBag.Title = "View Data";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var x = Request.QueryString["view"];
+    ApplicationDbContext db = new ApplicationDbContext();
+    int flagId = 0;
+
+}
+<h2 class="mt-2">@ViewBag.Title.</h2>
+@*@using (Html.BeginForm("Register", "Account", new { add = Request.QueryString["add"] }, FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))*@
+
+<div class="container mt-3">
+    <div class="row">
+
+        <div class="col-12 col-md-5" id="form">
+
+            @Html.Partial("_Edit", Model.UpdateViewModel)
+
+
+        </div>
+        <div class="col-12 col-md-4">
+            <div>
+                @Html.TextBox("txtSearch", null, new { id = "txtSearch" })
+                <input type="submit" value="Search" />
+            </div>
+
+            <div id="serchedTable">
+                @Html.Partial("_Data", Model.ApplicationUsers)
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@* Pop Up *@
+
+<div id="modals" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+
+            @* Ajax *@
+            <div id="Modell">
+                Hello
+            </div>
+        </div>
+    </div>
+</div>
+@* End Pop UP *@
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script>
+
+        function modalData() {
+            $("#modals").modal(
+                { show: true }
+            );
+        }
+
+        $(document).ready(function () {
+            $("#txtSearch").autocomplete({
+
+                source: function (request, response) {
+                    $.ajax({
+                        url: `/Account/GetUsers`,
+                        type: "POST",
+                        dataType: "json",
+                        data: { pattern: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.UserName, value: item.UserName };
+                            }))
+
+                        }
+                    })
+                },
+                messages: {
+                    noResults: "", results: ""
+                }
+            });
+        })
+    </script>
+}

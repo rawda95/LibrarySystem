@@ -1,0 +1,91 @@
+﻿@using System.Globalization;
+@model IEnumerable<LibraryProject.Models.MemberRead>
+@{
+    ViewBag.Title = "books";
+}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-3">
+                <div class="left-sidebar">
+                    <h2>Filter</h2>
+                    <div id="accordion">
+                        <div class="card">
+                            <div class="card-header" id="headingFour">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#Year" aria-expanded="false" aria-controls="Publishers">
+                                        Year
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="Year" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                                <div class="card-body">
+                                    <ul>
+                                        @for (int i = DateTime.Now.Year; i >= DateTime.Now.Year - 10; i--)
+
+                                        {
+
+                                            <li>@Html.ActionLink(i.ToString(), "Readbooks", "member", new { year = i }, null)</li>
+
+                                        }
+                                        <li>
+                                            @Html.ActionLink("all", "Readbooks", "member", null, null)
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="headingFour">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#Month" aria-expanded="false" aria-controls="Publishers">
+                                        Month
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="Month" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                                <div class="card-body">
+                                    <ul>
+                                        @for (int i = 1; i <= 12; i++)
+
+                                        {
+                                            string monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(i);
+
+
+                                            <li>@Html.ActionLink(monthName, "readbooks", "member", new { month = i }, null)</li>
+                                        }
+                                        <li>
+                                            @Html.ActionLink("all", "readbooks", "member", null, null)
+
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--features_items-->
+            <div class="col-12 col-sm-9">
+                <h2 class="title text-center">@ViewBag.type Books</h2>
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+
+                        <div class="col-12 col-md-3">
+                            <div class="product-image-wrapper text-center rounded shadow p-4 bg-light my-2">
+                                <div class="single-products">
+                                    <div class="productinfo text-center">
+                                        <p class="lead"> @item.book.name</p>
+                                        <P> @item.book.Author.name</P>
+                                        <p>@item.book.dateArived</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div><!--container-->
+</section>

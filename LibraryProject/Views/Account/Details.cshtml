@@ -1,0 +1,24 @@
+﻿@model LibraryProject.Models.ApplicationUser
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Details</h2>
+@Html.BeginForm(){
+
+<table class="text-center  table table-responsive">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <td>@Model.FirstName</td>
+        </tr>
+        <tr>
+            <th>Las Name</th>
+            <td>@Model.LastName</td>
+        </tr>
+        <tr>
+            <th>User Name</th>
+            <td>@Model.UserName</td>
+        </tr>
+
+</table>

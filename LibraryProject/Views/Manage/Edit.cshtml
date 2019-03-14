@@ -1,0 +1,76 @@
+﻿@model LibraryProject.Models.IndexViewModel
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "Manage";
+}
+<div class="container my-5">
+    <div class="mx-auto bg-light rounded p-2 shadow">
+        @using (Html.BeginForm("Register", "Account", new { add = Request.QueryString["add"] }, FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+        {
+
+
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.FirstName, new { @class = "" })
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.LastName, new { @class = "" })
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.UserName, new { @class = "" })
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @class = "" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password, new { @class = "" })
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "" })
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Address, new { @class = "" })
+                @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Phone, new { @class = "" })
+                @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+            </div>
+
+            if (User.IsInRole("Admin") || User.IsInRole("BasicAdmin"))
+            {
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Salary, new { @class = "col-md-2 control-label" })
+                    @Html.EditorFor(m => m.Salary, new { @class = "col-md-10 form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.HireDate, new { @class = "col-md-2 control-label" })
+                    @*@Html.EditorFor(m => m.HireDate, new { @class = "col-md-10 form-control" })*@
+                    @Html.TextBoxFor(m => m.HireDate, new { @class = "col-md-10 form-control", data_provide = "datepicker", data_date_format = "yyyy-mm-dd", data_date_autoclose = "true" })
+                </div>
+            }
+            <div class="form-group">
+                @Html.LabelFor(m => m.Photo, new { @class = "col-md-2 control-label" })
+                @Html.TextBoxFor(m => m.Photo, new { type = "file" })
+                @*<input id="Photo" name="Photo" type="file" />*@
+            </div>
+            <div class="form-group">
+                <div class="text-center">
+                    <input type="submit" class="btn btn-success mt-2" value="Register" />
+                </div>
+            </div>
+        }
+    </div>
+</div>

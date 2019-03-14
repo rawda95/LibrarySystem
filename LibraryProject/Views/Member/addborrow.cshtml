@@ -1,0 +1,30 @@
+﻿@using (Html.BeginForm("AddBorrow", "member", FormMethod.Post, null))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h4>BorrowMember</h4>
+        <hr />
+        <input type="hidden" name="book_id" value="@Model.book_id.ToString()" />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label for="book_name" class="control-label col-md-2">book name </label>
+            <div id="book_name" name="book_name" class="col-md-10">
+                @Model.book_name
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Duration" class="control-label col-md-2">Duration </label>
+            <div class="col-md-10">
+                <input id="Duration" type="number" min="1" name="Duration" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
