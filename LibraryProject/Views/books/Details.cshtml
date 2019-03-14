@@ -2,105 +2,165 @@
 
 @{
     ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layoutv2.cshtml";
 }
+<style>
+    .list {
+        margin-top: 90px;
+        text-align: center;
+        background-image: url('../../Content/images/bg/bg3.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        height:660px
+     }
+        .container .dl dt {
+           font-size:16px;
+           text-transform:capitalize
+        }
+        .container .dl dd {
+            color: #9a1616;
+        }
+    .flip-card {
+        background-color: transparent;
+        width: 300px;
+        height: 600px;
+        perspective: 1000px;
+    }
 
-<h2>Details</h2>
+    .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    }
 
-<div>
-    <h4>book</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Author.name)
-        </dt>
+    .flip-card:hover .flip-card-inner {
+        transform: rotateY(180deg);
+    }
 
-        <dd>
-            @Html.DisplayFor(model => model.Author.name)
-        </dd>
+    .flip-card-front, .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+    }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Category.name)
-        </dt>
+    .flip-card-front {
+        background-color: #bbb;
+        color: black;
+        z-index: 2;
+    }
+        .flip-card-front h3{
+            padding-top:300px;
+        }
+        .flip-card-back {
+            background-color: #2980b9;
+            color: white;
+            transform: rotateY(180deg);
+            z-index: 1;
+        }
 
-        <dd>
-            @Html.DisplayFor(model => model.Category.name)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Publisher.name)
-        </dt>
+</style>
+ 
 
-        <dd>
-            @Html.DisplayFor(model => model.Publisher.name)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.name)
-        </dt>
+   
+    
+    <div class="list">
+        <div class="row">
+            <div class="col-lg-12">
+                
+                 <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <h3>Book Details</h3>
+                        </div>
+                        <div class="flip-card-back">
+                            <dl class="dl-horizontal">
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.Author.name)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Author.name)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.Category.name)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Category.name)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.Publisher.name)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Publisher.name)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.name)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.name)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.PublisherDate)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.PublisherDate)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.Edition)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Edition)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.Pages)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Pages)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.Copies)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Copies)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.Aviable)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Aviable)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.ShielfNumber)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.ShielfNumber)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.dateArived)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.dateArived)
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PublisherDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PublisherDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Edition)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Edition)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Pages)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Pages)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Copies)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Copies)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Aviable)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Aviable)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ShielfNumber)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ShielfNumber)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.dateArived)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.dateArived)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+               </div>
+        </div>
+        <button class="btn btn-info">@Html.ActionLink("Edit", "Edit", new { id = Model.id })</button>
+        <button class="btn btn-info">@Html.ActionLink("Back to List", "Index")</button>
+       
+    </div>
+   
+    
+ 
+ 
+   
+ 

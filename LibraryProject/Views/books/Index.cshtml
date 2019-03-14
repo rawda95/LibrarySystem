@@ -1,149 +1,80 @@
 ﻿@model IEnumerable<LibraryProject.Models.book>
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layoutv2.cshtml";
 }
-<h2>Index</h2>
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<div>
-    <!--search-->
-    @using (Ajax.BeginForm("Index", "books", new AjaxOptions
-    {
-        UpdateTargetId = "searchedTable",
-        InsertionMode = InsertionMode.Replace,
-        HttpMethod = "Post"
-
-    }))
-
-    {
-        <div>
-            @Html.TextBox("txtSearch", null, new { cssClass = "btn" })
-            <input type="submit" value="Search" />
-        </div>
-    }
-</div><!--search-->
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Author.name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Category.name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Publisher.name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PublisherDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Edition)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Pages)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Copies)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Aviable)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ShielfNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.dateArived)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NumOfbrrow)
-        </th>
-        <th>
-            Num of available copies
-        </th>
-    </tr>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author.name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Publisher.name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PublisherDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Edition)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Pages)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Copies)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Aviable)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ShielfNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.dateArived)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumOfbrrow)
-            </td>
-            <td>
-                @{
-                    int numOfAvalibelBook = item.Copies - (item.NumOfbrrow + item.NumOfread);
-
-                }
-                @numOfAvalibelBook
-            </td>
-            <td>
-                @if (User.IsInRole("Admin"))
-                {
-                    @Html.ActionLink("Edit", "Edit", new { id = item.id })
-                    @Html.ActionLink("Details", "Details", new { id = item.id })
-                    @Html.ActionLink("Delete", "Delete", new { id = item.id })
-                }
-            </td>
-        </tr>
-    }
-</table>
-@section Scripts{
-    <script>
-        $(document).ready(function () {
-            $("#txtSearch").autocomplete = "on";
-
-            $("#txtSearch").autocomplete({
-                source: function (request, response) {
-                    $.ajax({
-                        url: "/books/NameString",
-                        type: "POST",
-                        dataType: "json",
-                        data: { name: request.term },
-                        success: function (data) {
-                            response(data);
-
-                        }
+ <style>
+     th {
+         color: #e59285;
+         text-align: center
+     }
+     td{
+         color:black;
+         text-align:center
+     }
+         td:hover {
+             font-size: 15px;
+         }
+ </style>
+ 
+    <button class="btn btn-secondary"  style="margin-top:120px;margin-bottom:50px">
+        @Html.ActionLink("Create New", "Create")
 
 
-                    })
-                },
+    </button>
+ <div class="container " style="align-content:center";>
+     <table class="col-lg-12 table  table-bordered table-hover " >
+         <tr>
+             <th>
+                    @Html.DisplayNameFor(model => model.Author.name)
+             </th>
+             <th>
+                     @Html.DisplayNameFor(model => model.Category.name)
+             </th>
+             <th>
+                      @Html.DisplayNameFor(model => model.Publisher.name)
+             </th>
 
-            });
-        })
-    </script>
-}
+
+             <th>
+                 @Html.DisplayNameFor(model => model.Edition)
+             </th>
+
+
+
+
+             <th></th>
+         </tr>
+         @foreach (var item in Model)
+         {
+             <tr>
+                 <td>
+                     @Html.DisplayFor(modelItem => item.Author.name)
+
+                 </td>
+                 <td>
+                     @Html.DisplayFor(modelItem => item.Category.name)
+                 </td>
+                 <td>
+                     @Html.DisplayFor(modelItem => item.Publisher.name)
+                 </td>
+
+
+                 <td>
+                     @Html.DisplayFor(modelItem => item.Edition)
+                 </td>
+
+
+
+
+                 <td>
+                     @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                     @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                     @Html.ActionLink("Delete", "Delete", new { id = item.id })
+                 </td>
+
+             </tr>
+         }
+     </table>
+
+ </div>

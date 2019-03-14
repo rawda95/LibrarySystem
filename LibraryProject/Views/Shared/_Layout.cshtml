@@ -2,8 +2,11 @@
 @using LibraryProject.Identity;
 @using Microsoft.AspNet.Identity;
 @{
+    /**/
+
     int flagId = 0;
     string error = "hhhhh";
+
     if (User.Identity.IsAuthenticated)
     {
         ApplicationDbContext db = new ApplicationDbContext();
@@ -18,144 +21,409 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">*@
-    <link href="~/Content/bootstrap-datepicker.min.css" rel="stylesheet" />
-    @*<link href="~/Content/Site.css" rel="stylesheet" />*@
-    @*<link href="~/Content/bootstrap-datepicker.min.css" rel="stylesheet" />*@
+    <title>@Page.Title</title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Book Library</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicons -->
+    <link rel="shortcut icon" href=@Url.Content("/content/images/favicon.ico")>
+    <link rel="apple-touch-icon" href=@Url.Content("/content/images/icon.png")>
+    <!-- Google font (font-family: 'Roboto', sans-serif; Poppins ; Satisfy) -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,600,600i,700,700i,800" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://kendo.cdn.telerik.com/2017.2.621/styles/kendo.common-material.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://kendo.cdn.telerik.com/2017.2.621/styles/kendo.mobile.all.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://kendo.cdn.telerik.com/2017.2.621/styles/kendo.material.min.css" rel="stylesheet" type="text/css" />
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href=@Url.Content("/content/css/bootstrap.min.css")>
+    <link rel="stylesheet" href=@Url.Content("/content/css/plugins.css")>
+    <link rel="stylesheet" href=@Url.Content("/content/style.css")>
+    <!-- Cusom css -->
+    <link rel="stylesheet" href=@Url.Content("/content/css/custom.css")>
+    <!-- Modernizer js -->
+    <script src=@Url.Content("/content/js/vendor/modernizr-3.5.0.min.js")></script>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    @* Start Basic Admin *@
-                    @if (User.IsInRole("BasicAdmin"))
-                    {
+    <!-- Header -->
+    <header id="wn__header" class="header__area header__absolute sticky__header " style="background-image:url(../../Content/images/bg/2.jpg);background-size: cover;">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-6 col-lg-2">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="~/Content/images/logo/logo.png" alt="logo images" />
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-8 d-none d-lg-block">
+                    <nav class="mainmenu__nav">
+                        <ul class="meninmenu d-flex justify-content-start">
+                            <li class="drop with--one--item">
+                                @if (User.IsInRole("Member") && flagId == 1)
+                                {
+                                    @Html.ActionLink("Home", "Index", "Default")
+                                }
+                            </li>
+                            @* Start Basic Admin *@
+                            @if (User.IsInRole("BasicAdmin"))
+                            {
 
-                        <li>@Html.ActionLink("Add Admin", "Register", "Account", new { add = "Admin" }, null)</li>
-
-
-
-                        <li>@Html.ActionLink("View Employee", "ViewUser", "Account", new { view = "Employee" }, null)</li>
-
-
-
-                        <li>@Html.ActionLink("View Member", "ViewUser", "Account", new { view = "Member" }, null)</li>
-
-
-
-                    }
-
-                    @* End Basic Admin *@
-
-                    @* Admin *@
-                    @if (User.IsInRole("Admin") && flagId == 1)
-                    {
-                        <li>@Html.ActionLink("Add Employee", "Register", "Account", new { add = "Employee" }, null)</li>
+                                <li>@Html.ActionLink("Add Admin", "Register", "Account", new { add = "Admin" }, null)</li>
 
 
 
-
-                        <li>@Html.ActionLink("Add Book", "Create", "books")</li>
-                        <li>@Html.ActionLink("View Book", "Index", "books")</li>
-
-                        @*<li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    Book
-                                    <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu" id="book" role="menu"></ul>
-                            </li>*@
+                                <li>@Html.ActionLink("View Employee", "ViewUser", "Account", new { view = "Employee" }, null)</li>
 
 
-                        <li>@Html.ActionLink("Add Author", "Create", "Authors")</li>
-                        <li>
-                            @Html.ActionLink("View Author", "Index", "Authors")
+
+                                <li>@Html.ActionLink("View Member", "ViewUser", "Account", new { view = "Member" }, null)</li>
+
+
+
+                            }
+
+                            @* End Basic Admin *@
+
+
+
+
+
+
+
+                            @* Admin *@
+                            @if (User.IsInRole("Admin") && flagId == 1)
+                            {
+                                <li>@Html.ActionLink("Add Employee", "Register", "Account", new { add = "Employee" }, null)</li>
+
+
+
+
+
+
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown">
+                                        Book
+                                        <span class="caret"></span>
+                                    </a>
+                                    <div class="dropdown-menu" id="book" role="menu" aria-labelledby="dropdownMenuButton">
+                                        <a> @Html.ActionLink("Add Book", "Create", "books")</a>
+                                        <a> @Html.ActionLink("View Book", "Index", "books")</a>
+                                    </div>
+                                </li>
+
+
+                                <li>@Html.ActionLink("Add Author", "Create", "Authors")</li>
+                                <li>
+                                    @Html.ActionLink("View Author", "Index", "Authors")
+                                </li>
+                                <li>@Html.ActionLink("Add Publisher", "Create", "Publishers")</li>
+                                <li>@Html.ActionLink("View Publisher", "Index", "Publishers")</li>
+
+
+
+                                <li>@Html.ActionLink("Add Cat", "Create", "category", null)</li>
+                                <li>@Html.ActionLink("View Cat", "Index", "category", null)</li>
+
+
+                            }
+                            @* End Admin *@
+
+
+                            @* Start Employee *@
+                            @if (User.IsInRole("Employee") && flagId == 1)
+                            {
+                                <li>@Html.ActionLink("Add Member", "Register", "Account", new { add = "Member" }, null)</li>
+                                <li>@Html.ActionLink("Add Borrow Book", "addBorrowBook", "Employee", new { add = "Member" }, null)</li>
+                                <li>@Html.ActionLink("Borrow Books", "borrowdbooks", "Employee", new { add = "Member" }, null)</li>
+
+                                <li>@Html.ActionLink("Reads Books", "readbooks", "Employee", new { add = "Member" }, null)</li>
+                                <li>@Html.ActionLink("Add Read Book", "addreadBook", "Employee", new { add = "Member" }, null)</li>
+
+                                <li>@Html.ActionLink("Book Late", "MemberBorrowLate", "Employee", new { add = "Member" }, null)</li>
+
+
+
+
+
+                            }
+                            @* End Employee *@
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            @* Start member *@
+                            @if (User.IsInRole("Member") && flagId == 1)
+                            {
+
+
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown">
+                                        Book
+                                        <span class="caret"></span>
+                                    </a>
+                                    <div class="dropdown-menu" id="book" role="menu" aria-labelledby="dropdownMenuButton">
+                                        <a>
+                                            @Html.ActionLink("read books", "readbooks", "member", new { @class = "drop with--one--item" }, null)
+                                        </a>
+                                        <a>
+                                            @Html.ActionLink("borrow books ", "borrowdBooks", "member", null, new { @class = "drop with--one--item" })
+                                        </a>
+
+                                        <a>
+                                            @Html.ActionLink("books ", "index", "member", null, new { @class = "drop with--one--item" })
+                                        </a>
+                                    </div>
+                                </li>
+
+
+
+                                <li>@Html.ActionLink("read books", "readbooks", "member", new { @class = "drop with--one--item" }, null)</li>
+                                <li>@Html.ActionLink("borrow books ", "borrowdBooks", "member", null, new { @class = "drop with--one--item" })</li>
+                                <li>@Html.ActionLink("books ", "index", "member", null, new { @class = "drop with--one--item" })</li>
+
+                            }
+                            @* End member *@
+                            <li>@Html.ActionLink("About", "About", "Home")</li>
+                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                            <li>@Html.Partial("_LoginPartial", new { @class = "drop with--one--item" })</li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-md-6 col-sm-6 col-6 col-lg-2">
+                    <ul class="header__sidebar__right d-flex justify-content-end align-items-center">
+                        <li class="shop_search"><a class="search__active" href="#"></a></li>
+                        <li class="setting__bar__icon">
+                            <a class="setting__active m-5" href="#"></a>
                         </li>
-                        <li>@Html.ActionLink("Add Publisher", "Create", "Publishers")</li>
-                        <li>@Html.ActionLink("View Publisher", "Index", "Publishers")</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Start Mobile Menu -->
+            <div class="row d-none">
+                <div class="col-lg-12 d-none">
+                    <nav class="mobilemenu__nav">
+                        <ul class="meninmenu">
+                            <li><a href="index.html">Home</a></li>
+                            @* Start Basic Admin *@
+                            @if (User.IsInRole("BasicAdmin"))
+                            {
+
+                                <li>@Html.ActionLink("Add Admin", "Register", "Account", new { add = "Admin" }, null)</li>
 
 
 
-                        <li>@Html.ActionLink("Add Cat", "Create", "category", null)</li>
-                        <li>@Html.ActionLink("View Cat", "Index", "category", null)</li>
-
-
-                    }
-                    @* End Admin *@
+                                <li>@Html.ActionLink("View Employee", "ViewUser", "Account", new { view = "Employee" }, null)</li>
 
 
 
-                    @* Start Employee *@
-                    @if (User.IsInRole("Employee") && flagId == 1)
-                    {
-                        <li>@Html.ActionLink("Add Member", "Register", "Account", new { add = "Member" }, null)</li>
-                        <li>@Html.ActionLink("Add Borrow Book", "addBorrowBook", "Employee", new { add = "Member" }, null)</li>
-                        <li>@Html.ActionLink("Borrow Books", "borrowdbooks", "Employee", new { add = "Member" }, null)</li>
+                                <li>@Html.ActionLink("View Member", "ViewUser", "Account", new { view = "Member" }, null)</li>
 
-                        <li>@Html.ActionLink("Reads Books", "readbooks", "Employee", new { add = "Member" }, null)</li>
-                        <li>@Html.ActionLink("Add Read Book", "addreadBook", "Employee", new { add = "Member" }, null)</li>
 
-                        <li>@Html.ActionLink("Book Late", "MemberBorrowLate", "Employee", new { add = "Member" }, null)</li>
+
+                            }
+
+                            @* End Basic Admin *@
 
 
 
 
 
-                    }
-                    @* End Employee *@
 
 
-                    @* Start member *@
-                    @if (User.IsInRole("Member") && flagId == 1)
-                    {
-                        <li>@Html.ActionLink("read books", "readbooks", "member", null, null)</li>
-                        <li>@Html.ActionLink("borrow books ", "borrowdBooks", "member", null, null)</li>
+                            @* Admin *@
+                            @if (User.IsInRole("Admin") && flagId == 1)
+                            {
+                                <li>@Html.ActionLink("Add Employee", "Register", "Account", new { add = "Employee" }, null)</li>
 
-                    }
-                    @* End member *@
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
+
+
+
+
+
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown">
+                                        Book
+                                        <span class="caret"></span>
+                                    </a>
+                                    <div class="dropdown-menu" id="book" role="menu" aria-labelledby="dropdownMenuButton">
+                                        <a> @Html.ActionLink("Add Book", "Create", "books")</a>
+                                        <a> @Html.ActionLink("View Book", "Index", "books")</a>
+                                    </div>
+                                </li>
+
+
+                                <li>@Html.ActionLink("Add Author", "Create", "Authors")</li>
+                                <li>
+                                    @Html.ActionLink("View Author", "Index", "Authors")
+                                </li>
+                                <li>@Html.ActionLink("Add Publisher", "Create", "Publishers")</li>
+                                <li>@Html.ActionLink("View Publisher", "Index", "Publishers")</li>
+
+
+
+                                <li>@Html.ActionLink("Add Cat", "Create", "category", null)</li>
+                                <li>@Html.ActionLink("View Cat", "Index", "category", null)</li>
+
+
+                            }
+                            @* End Admin *@
+
+
+                            @* Start Employee *@
+                            @if (User.IsInRole("Employee") && flagId == 1)
+                            {
+                                <li>@Html.ActionLink("Add Member", "Register", "Account", new { add = "Member" }, null)</li>
+                                <li>@Html.ActionLink("Add Borrow Book", "addBorrowBook", "Employee", new { add = "Member" }, null)</li>
+                                <li>@Html.ActionLink("Borrow Books", "borrowdbooks", "Employee", new { add = "Member" }, null)</li>
+
+                                <li>@Html.ActionLink("Reads Books", "readbooks", "Employee", new { add = "Member" }, null)</li>
+                                <li>@Html.ActionLink("Add Read Book", "addreadBook", "Employee", new { add = "Member" }, null)</li>
+
+                                <li>@Html.ActionLink("Book Late", "MemberBorrowLate", "Employee", new { add = "Member" }, null)</li>
+
+
+
+
+
+                            }
+                            @* End Employee *@
+
+
+
+
+                            @* Start member *@
+                            @if (User.IsInRole("Member") && flagId == 1)
+                            {
+                                <li>@Html.ActionLink("read books", "readbooks", "member", null, null)</li>
+                                <li>@Html.ActionLink("borrow books ", "borrowdBooks", "member", null, null)</li>
+                                <li>@Html.ActionLink("books ", "index", "member", null, null)</li>
+
+                            }
+                            @* End member *@
+                            <li>@Html.ActionLink("About", "About", "Home")</li>
+                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                            <li>@Html.Partial("_LoginPartial", new { @class = "drop with--one--item" })</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- End Mobile Menu -->
+            <div class="mobile-menu d-block d-lg-none">
+            </div>
+            <!-- Mobile Menu -->
+        </div>
+    </header>
+    <!-- //Header -->
+    <!-- Start Search Popup -->
+    <div class="brown--color box-search-content search_active block-bg close__top m-5">
+        <form id="search_mini_form" class="minisearch" action="#">
+            <div class="field__search">
+                <input type="text" placeholder="Search entire store here...">
+                <div class="action">
+                    <a href="#"><i class="zmdi zmdi-search"></i></a>
+                </div>
+            </div>
+        </form>
+        <div class="close__wrap">
+            <span>close</span>
+        </div>
+    </div>
+    <!-- End Search Popup -->
+    @RenderBody()
+    <!-- Footer Area -->
+    <footer id="wn__footer" class="footer__area bg__cat--8 brown--color">
+        <div class="footer-static-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="footer__widget footer__menu">
+                            <div class="ft__logo">
+                                <a href="index.html">
+                                    <img src="~/Content/images/logo/3.png" alt="logo">
+                                </a>
+                                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered duskam alteration variations of passages</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright__wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="copyright">
+                            <div class="copy__right__inner text-left">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="payment text-right">
+                            <img src="~/Content/images/icons/payment.png" alt="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- //Footer Area -->
+    <!-- QUICKVIEW PRODUCT -->
+    <div id="quickview-wrapper">
+        <!-- Modal -->
+        <div class="modal fade" id="productmodal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal__container" role="document">
+                <div class="modal-content">
+                    <div class="modal-header modal__header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-product">
+                            <!-- Start product images -->
+                            <div class="product-images">
+                                <div class="main-image images">
+                                    <img alt="big images" src="~/Content/images/product/big-img/1.jpg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
-    @Scripts.Render("~/bundles/jquery")
+    <!-- END QUICKVIEW PRODUCT -->
+    <!-- JS Files -->
+    <script src=@Url.Content("/content/js/vendor/jquery-3.2.1.min.js")></script>
+    <script src=@Url.Content("/content/js/popper.min.js")></script>
+    <script src=@Url.Content("/content/js/bootstrap.min.js")></script>
+    <script src=@Url.Content("/content/js/plugins.js")></script>
+    <script src=@Url.Content("/content/js/active.js")></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://kendo.cdn.telerik.com/2017.2.621/js/jquery.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2017.2.621/js/jszip.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2017.2.621/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2017.2.621/js/kendo.aspnetmvc.min.js"></script>
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     @Scripts.Render("~/bundles/bootstrap")
-    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
-    @Scripts.Render("~/Scripts/select2.js")
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    @Scripts.Render("~/Scripts/select2.js")
     @RenderSection("scripts", required: false)
-    <script>
-        function handleSucess() {
-            consol.log("sssssssssssss")
-        }
-    </script>
 </body>
 </html>
