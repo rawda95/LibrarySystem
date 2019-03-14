@@ -4,6 +4,8 @@
 @{
     /**/
 
+    /**/
+
     int flagId = 0;
     string error = "hhhhh";
 
@@ -98,12 +100,6 @@
                             @if (User.IsInRole("Admin") && flagId == 1)
                             {
                                 <li>@Html.ActionLink("Add Employee", "Register", "Account", new { add = "Employee" }, null)</li>
-
-
-
-
-
-
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown">
                                         Book
@@ -116,17 +112,45 @@
                                 </li>
 
 
-                                <li>@Html.ActionLink("Add Author", "Create", "Authors")</li>
-                                <li>
-                                    @Html.ActionLink("View Author", "Index", "Authors")
+
+
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown">
+                                        Author
+                                        <span class="caret"></span>
+                                    </a>
+                                    <div class="dropdown-menu" id="book" role="menu" aria-labelledby="dropdownMenuButton">
+                                        <a>@Html.ActionLink("Add Author", "Create", "Authors")</a>
+                                        <a>@Html.ActionLink("View Author", "Index", "Authors")</a>
+                                    </div>
                                 </li>
-                                <li>@Html.ActionLink("Add Publisher", "Create", "Publishers")</li>
-                                <li>@Html.ActionLink("View Publisher", "Index", "Publishers")</li>
+
+
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown">
+                                        Publisher
+                                        <span class="caret"></span>
+                                    </a>
+                                    <div class="dropdown-menu" id="book" role="menu" aria-labelledby="dropdownMenuButton">
+                                        <a>@Html.ActionLink("Add Publisher", "Create", "Publishers")</a>
+                                        <a>@Html.ActionLink("View Publisher", "Index", "Publishers")</a>
+                                    </div>
+                                </li>
+
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown">
+                                        Category
+                                        <span class="caret"></span>
+                                    </a>
+                                    <div class="dropdown-menu" id="book" role="menu" aria-labelledby="dropdownMenuButton">
+                                        <a>@Html.ActionLink("Add Cat", "Create", "category", null)</a>
+                                        <a>@Html.ActionLink("View Cat", "Index", "category", null)</a>
+                                    </div>
+                                </li>
 
 
 
-                                <li>@Html.ActionLink("Add Cat", "Create", "category", null)</li>
-                                <li>@Html.ActionLink("View Cat", "Index", "category", null)</li>
+
 
 
                             }
@@ -137,13 +161,27 @@
                             @if (User.IsInRole("Employee") && flagId == 1)
                             {
                                 <li>@Html.ActionLink("Add Member", "Register", "Account", new { add = "Member" }, null)</li>
-                                <li>@Html.ActionLink("Add Borrow Book", "addBorrowBook", "Employee", new { add = "Member" }, null)</li>
-                                <li>@Html.ActionLink("Borrow Books", "borrowdbooks", "Employee", new { add = "Member" }, null)</li>
 
-                                <li>@Html.ActionLink("Reads Books", "readbooks", "Employee", new { add = "Member" }, null)</li>
-                                <li>@Html.ActionLink("Add Read Book", "addreadBook", "Employee", new { add = "Member" }, null)</li>
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown">
+                                        Book
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" id="book" role="menu" aria-labelledby="dropdownMenuButton">
+                                        <li class="dropdown-header">Borrow</li>
+                                        <li>@Html.ActionLink("Add Borrow Book", "addBorrowBook", "Employee", new { add = "Member" }, null)</li>
+                                        <li>@Html.ActionLink("Borrow Books", "borrowdbooks", "Employee", new { add = "Member" }, null)</li>
+                                        <li class="divider"></li>
+                                        <li class="dropdown-header">Read</li>
+                                        <li>@Html.ActionLink("Reads Books", "readbooks", "Employee", new { add = "Member" }, null)</li>
+                                        <li>@Html.ActionLink("Add Read Book", "addreadBook", "Employee", new { add = "Member" }, null)</li>
+                                        <li class="divider"></li>
+                                        <li class="dropdown-header">Late Book</li>
+                                        <li>@Html.ActionLink("Book Late", "MemberBorrowLate", "Employee", new { add = "Member" }, null)</li>
+                                    </ul>
+                                </li>
 
-                                <li>@Html.ActionLink("Book Late", "MemberBorrowLate", "Employee", new { add = "Member" }, null)</li>
+
 
 
 
@@ -181,7 +219,6 @@
                                         <a>
                                             @Html.ActionLink("borrow books ", "borrowdBooks", "member", null, new { @class = "drop with--one--item" })
                                         </a>
-
                                         <a>
                                             @Html.ActionLink("books ", "index", "member", null, new { @class = "drop with--one--item" })
                                         </a>
@@ -190,9 +227,7 @@
 
 
 
-                                <li>@Html.ActionLink("read books", "readbooks", "member", new { @class = "drop with--one--item" }, null)</li>
-                                <li>@Html.ActionLink("borrow books ", "borrowdBooks", "member", null, new { @class = "drop with--one--item" })</li>
-                                <li>@Html.ActionLink("books ", "index", "member", null, new { @class = "drop with--one--item" })</li>
+
 
                             }
                             @* End member *@
