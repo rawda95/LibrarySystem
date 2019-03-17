@@ -1,35 +1,32 @@
 ﻿@model LibraryProject.Models.book
-
 @{
     ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_Layoutv2.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
 <style>
+
     .form-group {
         width: 450px
     }
-    img.img-circle{
-        padding-top:90px
+
+    img.img-circle {
+        padding-top: 90px
     }
 </style>
 
-
 <h2>Edit</h2>
-
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
 
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
-
                 <div class="form-horizontal" style="margin-top:60px">
                     <h4> Edit Book</h4>
-
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     @Html.HiddenFor(model => model.id)
                     <div class="form-group">
@@ -119,21 +116,16 @@
                 </div>
             </div>
             <div class="col-lg-6 hidden-xs ">
-               
                 <img src="~/Content/images/books/edit.png" class="img-circle " />
             </div>
-
         </div>
     </div>
 }
-
 <div>
     <button class="btn btn-primary">
         @Html.ActionLink("Back to List", "Index")
-
     </button>
 </div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

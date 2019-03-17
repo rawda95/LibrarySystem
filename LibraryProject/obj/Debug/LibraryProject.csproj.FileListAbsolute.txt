@@ -351,8 +351,8 @@ E:\ITI\MVC\Project\final\Library-master\LibraryProject\bin\Microsoft.Owin.Securi
 E:\ITI\MVC\Project\final\Library-master\LibraryProject\bin\System.Diagnostics.DiagnosticSource.xml
 E:\ITI\MVC\Project\final\Library-master\LibraryProject\bin\Microsoft.AspNet.TelemetryCorrelation.xml
 E:\ITI\MVC\Project\final\Library-master\LibraryProject\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-E:\ITI\MVC\Project\final\Library-master\LibraryProject\obj\Debug\LibraryProject.csprojAssemblyReference.cache
 E:\ITI\MVC\Project\final\Library-master\LibraryProject\obj\Debug\LibraryProject.csproj.CoreCompileInputs.cache
 E:\ITI\MVC\Project\final\Library-master\LibraryProject\obj\Debug\LibraryProject.csproj.CopyComplete
 E:\ITI\MVC\Project\final\Library-master\LibraryProject\obj\Debug\LibraryProject.dll
 E:\ITI\MVC\Project\final\Library-master\LibraryProject\obj\Debug\LibraryProject.pdb
+E:\ITI\MVC\Project\final\Library-master\LibraryProject\obj\Debug\LibraryProject.csprojAssemblyReference.cache

@@ -1,7 +1,7 @@
 ﻿@model LibraryProject.Models.RegisterViewModel
 @{
     string error = ViewBag.ModelValid;
-    if (error == null) { error = "ffffff"; }
+    if (error == null) { error = ""; }
 }
 <div class="mx-auto bg-light rounded p-2 shadow">
     @using (Ajax.BeginForm("Register", "Account",

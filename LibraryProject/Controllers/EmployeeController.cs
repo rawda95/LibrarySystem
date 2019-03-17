@@ -311,6 +311,42 @@ namespace LibraryProject.Controllers
 
 
 
+
+
+
+
+
+
+
+        [HttpPost]
+        public JsonResult NamesReadBooks(string name)
+        {
+
+            db.Configuration.ProxyCreationEnabled = false;
+
+            var books = db.ReadMembers.Where(b => b.book.name.Contains(name)).Select(b => b.book.name);
+
+
+
+
+            var list = JsonConvert.SerializeObject(books,
+                 Formatting.None,
+                        new JsonSerializerSettings()
+                        {
+                            ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                        });
+
+            return Json(books.ToList(), JsonRequestBehavior.AllowGet);
+
+        }
+
+
+
+
+
+
+
+
         //for read
 
 

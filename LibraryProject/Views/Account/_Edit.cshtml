@@ -2,7 +2,7 @@
 @model LibraryProject.Models.UpdateViewModel
 @{
     string error = ViewBag.ModelValid;
-    if (error == null) { error = "ffffff"; }
+    if (error == null) { error = ""; }
 }
 @using (Ajax.BeginForm("Update", "Account",
     new { edit = Request.QueryString["edit"] },

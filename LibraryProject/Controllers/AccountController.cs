@@ -651,11 +651,11 @@ namespace LibraryProject.Controllers
                 {
                     case SignInStatus.Success:
 
-                        if (roName.Equals("Member"))
-                        {
-                            return RedirectToAction("Index", "member", null);
-                        }
-                        return RedirectToLocal(returnUrl);
+
+
+
+                        return RedirectToAction("Index", "Default");
+                    //return RedirectToLocal(returnUrl);
                     case SignInStatus.LockedOut:
                         return View("Lockout");
                     case SignInStatus.RequiresVerification:
@@ -1088,7 +1088,7 @@ namespace LibraryProject.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Default");
         }
 
         //
